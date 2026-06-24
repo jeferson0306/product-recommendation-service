@@ -1,0 +1,59 @@
+{
+  "priority": 2,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/products/category/([a-zA-Z0-9-]+)"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "category": "{{request.pathSegments.[3]}}",
+      "totalProducts": "{{randomInt lower=50 upper=200}}",
+      "products": [
+        {
+          "productId": "PROD-{{randomInt lower=1000 upper=9999}}",
+          "name": "Premium {{request.pathSegments.[3]}} Item",
+          "currentPrice": "{{randomDecimal min=50.0 max=200.0}}",
+          "originalPrice": "{{randomDecimal min=200.0 max=300.0}}",
+          "averageRating": "{{randomDecimal min=4.0 max=5.0}}",
+          "totalReviews": "{{randomInt lower=100 upper=500}}",
+          "availability": "IN_STOCK"
+        },
+        {
+          "productId": "PROD-{{randomInt lower=1000 upper=9999}}",
+          "name": "Standard {{request.pathSegments.[3]}} Item",
+          "currentPrice": "{{randomDecimal min=30.0 max=100.0}}",
+          "originalPrice": "{{randomDecimal min=100.0 max=150.0}}",
+          "averageRating": "{{randomDecimal min=3.5 max=4.5}}",
+          "totalReviews": "{{randomInt lower=50 upper=200}}",
+          "availability": "IN_STOCK"
+        },
+        {
+          "productId": "PROD-{{randomInt lower=1000 upper=9999}}",
+          "name": "Budget {{request.pathSegments.[3]}} Item",
+          "currentPrice": "{{randomDecimal min=10.0 max=50.0}}",
+          "originalPrice": "{{randomDecimal min=50.0 max=80.0}}",
+          "averageRating": "{{randomDecimal min=3.0 max=4.0}}",
+          "totalReviews": "{{randomInt lower=20 upper=100}}",
+          "availability": "{{randomValue values='IN_STOCK,LOW_STOCK'}}"
+        }
+      ],
+      "filters": {
+        "priceRange": {
+          "min": "{{randomDecimal min=5.0 max=20.0}}",
+          "max": "{{randomDecimal min=200.0 max=500.0}}"
+        },
+        "brands": [
+          "{{randomValue values='Apple,Samsung,Nike,Adidas,Sony'}}",
+          "{{randomValue values='Apple,Samsung,Nike,Adidas,Sony'}}",
+          "{{randomValue values='Apple,Samsung,Nike,Adidas,Sony'}}"
+        ]
+      }
+    },
+    "fixedDelayMilliseconds": "{{randomInt lower=400 upper=800}}",
+    "transformers": ["response-template"]
+  }
+}
