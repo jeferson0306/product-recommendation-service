@@ -1,0 +1,62 @@
+{
+  "priority": 2,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/users/([a-zA-Z0-9-]+)/profile"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "userId": "{{request.pathSegments.[2]}}",
+      "demographics": {
+        "age": "{{randomInt lower=18 upper=65}}",
+        "gender": "{{randomValue values='male,female,other'}}",
+        "location": "{{randomValue values='New York,Los Angeles,Chicago,Houston,Phoenix'}}",
+        "income": "{{randomValue values='25000-50000,50000-75000,75000-100000,100000+'}}",
+        "education": "{{randomValue values='High School,Bachelor,Master,PhD'}}"
+      },
+      "preferences": {
+        "categories": [
+          "{{randomValue values='electronics,clothing,books,home,sports'}}",
+          "{{randomValue values='electronics,clothing,books,home,sports'}}",
+          "{{randomValue values='electronics,clothing,books,home,sports'}}"
+        ],
+        "priceRange": {
+          "min": "{{randomInt lower=10 upper=50}}",
+          "max": "{{randomInt lower=100 upper=500}}"
+        },
+        "brands": [
+          "{{randomValue values='Apple,Samsung,Nike,Adidas,Sony'}}",
+          "{{randomValue values='Apple,Samsung,Nike,Adidas,Sony'}}"
+        ],
+        "style": "{{randomValue values='minimalist,luxury,budget-conscious,trendy,classic'}}"
+      },
+      "purchaseHistory": {
+        "totalOrders": "{{randomInt lower=5 upper=50}}",
+        "averageOrderValue": "{{randomDecimal min=50.0 max=300.0}}",
+        "lastPurchaseDate": "2024-{{randomInt lower=1 upper=12}}-{{randomInt lower=1 upper=28}}",
+        "favoriteCategories": [
+          "{{randomValue values='electronics,clothing,books,home,sports'}}",
+          "{{randomValue values='electronics,clothing,books,home,sports'}}"
+        ],
+        "seasonalPatterns": {
+          "spring": "{{randomInt lower=10 upper=40}}",
+          "summer": "{{randomInt lower=10 upper=40}}",
+          "fall": "{{randomInt lower=10 upper=40}}",
+          "winter": "{{randomInt lower=10 upper=40}}"
+        }
+      },
+      "behaviorPatterns": {
+        "browsingFrequency": "{{randomValue values='daily,weekly,monthly'}}",
+        "purchaseFrequency": "{{randomValue values='weekly,monthly,quarterly'}}",
+        "priceSensitivity": "{{randomValue values='low,medium,high'}}",
+        "brandLoyalty": "{{randomValue values='low,medium,high'}}"
+      }
+    },
+    "fixedDelayMilliseconds": "{{randomInt lower=1200 upper=1800}}",
+    "transformers": ["response-template"]
+  }
+}
