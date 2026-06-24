@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: recommendation-service
+
+  datasource:
+    url: jdbc:h2:mem:recommendationdb;DB_CLOSE_DELAY=-1;NON_KEYWORDS=VALUE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  h2:
+    console:
+      enabled: false
+
+  security:
+    user:
+      name: user
+      password: secret
+
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+
+external:
+  services:
+    user-profile:
+      base-url: http://localhost:8089
+    product-catalog:
+      base-url: http://localhost:8089
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userProfileService:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+        record-exceptions:
+          - com.skyportugal.recommendation.exception.ServiceUnavailableException
+          - java.util.concurrent.TimeoutException
+      productCatalogService:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+        record-exceptions:
+          - com.skyportugal.recommendation.exception.ServiceUnavailableException
+          - java.util.concurrent.TimeoutException
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  level:
+    com.skyportugal.recommendation: INFO
+    org.springframework.security: WARN
