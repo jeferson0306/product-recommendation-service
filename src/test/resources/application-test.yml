@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;NON_KEYWORDS=VALUE
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+  security:
+    user:
+      name: user
+      password: secret
+
+external:
+  services:
+    user-profile:
+      base-url: http://localhost:9999
+    product-catalog:
+      base-url: http://localhost:9999
+
+logging:
+  level:
+    com.skyportugal: WARN
