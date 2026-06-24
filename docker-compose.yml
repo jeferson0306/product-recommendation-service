@@ -1,0 +1,46 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_SECURITY_USER_NAME: user
+      SPRING_SECURITY_USER_PASSWORD: secret
+    depends_on:
+      db:
+        condition: service_healthy
+      wiremock:
+        condition: service_started
+    networks:
+      - recommendation-net
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: recommendationdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - recommendation-net
+
+  wiremock:
+    image: wiremock/wiremock:latest
+    ports:
+      - "8089:8080"
+    volumes:
+      - ./wiremock:/home/wiremock
+    command: ["--global-response-templating", "--verbose"]
+    networks:
+      - recommendation-net
+
+networks:
+  recommendation-net:
+    driver: bridge
