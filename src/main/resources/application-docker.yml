@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db:5432/recommendationdb
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+external:
+  services:
+    user-profile:
+      base-url: http://wiremock:8080
+    product-catalog:
+      base-url: http://wiremock:8080

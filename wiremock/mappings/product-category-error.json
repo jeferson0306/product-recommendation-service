@@ -1,0 +1,23 @@
+{
+  "priority": 1,
+  "scenarioName": "ProductCatalogFailure",
+  "requiredScenarioState": "Error",
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/products/category/([a-zA-Z0-9-]+)"
+  },
+  "response": {
+    "status": 503,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "error": "Service Unavailable",
+      "message": "{{randomValue values='Product catalog service error,Category service temporarily down,Upstream service timeout'}}",
+      "timestamp": "{{now format='yyyy-MM-dd'}}T{{now format='HH:mm:ss'}}Z",
+      "category": "{{request.pathSegments.[3]}}"
+    },
+    "fixedDelayMilliseconds": "{{randomInt lower=1500 upper=4000}}",
+    "transformers": ["response-template"]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/users/(notfound|unknown|invalid)/profile"
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "error": "User Not Found",
+      "message": "User profile not found",
+      "timestamp": "{{now format='yyyy-MM-dd'}}T{{now format='HH:mm:ss'}}Z",
+      "userId": "{{request.pathSegments.[2]}}"
+    },
+    "fixedDelayMilliseconds": 100,
+    "transformers": ["response-template"]
+  }
+}
