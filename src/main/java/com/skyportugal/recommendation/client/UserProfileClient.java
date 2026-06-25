@@ -54,6 +54,9 @@ public class UserProfileClient {
     }
 
     private Mono<UserProfileResponse> fallback(String userId, Throwable cause) {
+        if (cause instanceof UserNotFoundException) {
+            return Mono.error(cause);
+        }
         log.warn("Circuit breaker open for user profile service userId={}", userId);
         return Mono.error(new ServiceUnavailableException("User profile service is currently unavailable", cause));
     }
