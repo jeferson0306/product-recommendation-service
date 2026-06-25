@@ -49,6 +49,8 @@ resilience4j:
         record-exceptions:
           - com.skyportugal.recommendation.exception.ServiceUnavailableException
           - java.util.concurrent.TimeoutException
+        ignore-exceptions:
+          - com.skyportugal.recommendation.exception.UserNotFoundException
       productCatalogService:
         sliding-window-size: 10
         failure-rate-threshold: 50
