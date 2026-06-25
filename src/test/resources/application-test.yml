@@ -22,3 +22,4 @@ external:
 logging:
   level:
     com.skyportugal: WARN
+    com.skyportugal.recommendation.RecommendationIntegrationTest: INFO
